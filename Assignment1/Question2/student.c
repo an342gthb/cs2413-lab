@@ -16,7 +16,18 @@
 
 int majorityElement(int* nums, int numsSize) {
      // TODO: implement
+     int count = 0;
+     int possible = 0;
 
+     for(int i = 0; i<numsSize; i++){
+          if(count==0)
+               possible = nums[i];
+          if(nums[i] == possible)
+               count++;
+          else
+               count--;
 
+     }
+     return possible;
 
 }
