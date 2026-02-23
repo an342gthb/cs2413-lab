@@ -42,54 +42,83 @@
 MyCircularQueue* myCircularQueueCreate(int k) {
     // TODO:
     // - Allocate MyCircularQueue
+    MyCircularQueue* q = (MyCircularQueue*)malloc(sizeof(MyCircularQueue));
     // - Allocate the internal buffer `data` of length k
+    q->data = (int*)malloc(k * sizeof(int));
     // - Initialize capacity, head, tail, size
-
+    q->capacity = k;
+    q->head = 0;
+    q->tail = 0;
+    q->size = 0;
+    return q;
+    //done
 }
 
 bool myCircularQueueEnQueue(MyCircularQueue* obj, int value) {
     // TODO:
     // - If full, return false
+    if(myCircularQueueIsFull(obj))
+        return false;
     // - Write value at tail, advance tail (wrap), size++
-
+    obj->data[obj->tail] = value;
+    obj->tail = (obj->tail + 1) % obj->capacity;
+    obj->size++;
+    return true;
 }
 
 bool myCircularQueueDeQueue(MyCircularQueue* obj) {
     // TODO:
     // - If empty, return false
+    if(myCircularQueueIsEmpty(obj))
+        return false;
     // - Advance head (wrap), size--
-
+    obj->head = (obj->head + 1) % obj->capacity;
+    obj->size--;
+    return true;
 }
 
 int myCircularQueueFront(MyCircularQueue* obj) {
     // TODO:
     // - Return -1 if empty
+    if(myCircularQueueIsEmpty(obj))
+        return -1;
     // - Otherwise return data[head]
-
+    return obj->data[obj->head];
+    //done
 }
 
 int myCircularQueueRear(MyCircularQueue* obj) {
     // TODO:
     // - Return -1 if empty
+    if(myCircularQueueIsEmpty(obj))
+        return -1;
     // - Otherwise return the last inserted element
+    int last = (obj->tail + obj->capacity - 1) % obj->capacity;
+    return obj->data[last];
     //   (tail points to next insertion position)
+    //done
 
 }
 
 bool myCircularQueueIsEmpty(MyCircularQueue* obj) {
     // TODO:
     // - Return true if size == 0
+    return obj->size == 0;
+    //done
 
 }
 
 bool myCircularQueueIsFull(MyCircularQueue* obj) {
     // TODO:
     // - Return true if size == capacity
- 
+    return obj->size == obj->capacity;
+    //done
 }
 
 void myCircularQueueFree(MyCircularQueue* obj) {
     // TODO:
     // - Free internal buffer then free obj
-  
+    free(obj->data);
+    free(obj);
+    //done
 }
