@@ -1,4 +1,5 @@
 #include "graph.h"
+#include <stdlib.h>
 // Description
 
 // Write a function that counts how many nodes are isolated.
@@ -11,6 +12,22 @@
 
 
 int count_isolated(Graph* g) {
+    if(g == NULL)
+        return 0;
+    int result=0;
+    for(int i = 0; i < MAX_NODES; i++){
+        int flag = 1;
+        for(int j=0; j<MAX_NODES; j++){
+            if(g->adj[i][j] != 0){
+                flag = 0;
+                break;
+            }
+        }
+        if(flag==1){
+            result++;
+        }
+    }
+    return result;
     // TODO: implement
     // return -1;
    
