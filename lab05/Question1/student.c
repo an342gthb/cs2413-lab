@@ -63,7 +63,19 @@ Return an array of size 2 containing the indices of the two numbers
 whose sum equals target.
 */
 int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
-    /* Write your code here */
+    Node* table[TABLE_SIZE] = {NULL};
+    int* result = (int*)malloc(2 * sizeof(int));
+    for (int i = 0; i < numsSize; i++){
+        int comp = target-nums[i];
+        int compindex;
+        if(find(table, comp, &compindex)){
+            result[0] = compindex;
+            result[1]=i;
+            *returnSize = 2;
+            return result;
+        }
+        insert(table,nums[i],i);
+    }
 
     *returnSize = 0;
     return NULL;
@@ -73,7 +85,7 @@ int* twoSum(int* nums, int numsSize, int target, int* returnSize) {
 Optional helper: compute a hash index for a key.
 */
 static int hash(int key) {
-    /* Write your code here if you use this helper */
+    return ((key % TABLE_SIZE) + TABLE_SIZE) % TABLE_SIZE;
     return 0;
 }
 
@@ -81,7 +93,12 @@ static int hash(int key) {
 Optional helper: insert (key, value) into the hash table.
 */
 static void insert(Node* table[], int key, int value) {
-    /* Write your code here if you use this helper */
+    int index = hash(key);
+    Node* node2 = (Node*)malloc(sizeof(Node));
+    node2->key = key;
+    node2->value = value;
+    node2->next = table[index];
+    table[index] = node2;
 }
 
 /*
@@ -90,7 +107,15 @@ If found, store the associated value in *value and return 1.
 Otherwise return 0.
 */
 static int find(Node* table[], int key, int* value) {
-    /* Write your code here if you use this helper */
+    int index = hash(key);
+    Node* current = table[index];
+    while(current){
+        if(current->key == key){
+            *value = current->value;
+            return 1;
+        }
+        current = current->next;
+    }
     return 0;
 }
 
